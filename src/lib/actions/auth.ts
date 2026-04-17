@@ -3,7 +3,7 @@
 import bcrypt from "bcryptjs";
 
 import { prisma } from "@/lib/prisma";
-import { signIn } from "@/lib/auth";
+import { signIn, signOut } from "@/lib/auth";
 import { signupSchema, loginSchema } from "@/lib/validations/auth";
 
 export type AuthState = {
@@ -11,7 +11,10 @@ export type AuthState = {
   fieldErrors?: Record<string, string[]>;
 } | null;
 
-export const signup = async (_prevState: AuthState, formData: FormData): Promise<AuthState> => {
+export const signup = async (
+  _prevState: AuthState,
+  formData: FormData,
+): Promise<AuthState> => {
   const raw = {
     name: formData.get("name"),
     email: formData.get("email"),
@@ -51,13 +54,18 @@ export const signup = async (_prevState: AuthState, formData: FormData): Promise
     if ((error as { digest?: string })?.digest?.startsWith("NEXT_REDIRECT")) {
       throw error;
     }
-    return { error: "アカウントは作成されましたが、自動ログインに失敗しました" };
+    return {
+      error: "アカウントは作成されましたが、自動ログインに失敗しました",
+    };
   }
 
   return null;
 };
 
-export const login = async (_prevState: AuthState, formData: FormData): Promise<AuthState> => {
+export const login = async (
+  _prevState: AuthState,
+  formData: FormData,
+): Promise<AuthState> => {
   const raw = {
     email: formData.get("email"),
     password: formData.get("password"),
@@ -82,4 +90,8 @@ export const login = async (_prevState: AuthState, formData: FormData): Promise<
   }
 
   return null;
+};
+
+export const signOutAction = async () => {
+  await signOut({ redirectTo: "/login" });
 };
