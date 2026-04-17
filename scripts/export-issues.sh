@@ -1,21 +1,9 @@
 #!/bin/bash
-# GitHub Issue + ラベルをエクスポート（phase:0 は除外）
-#
-# 使い方:
-#   ./scripts/export-issues.sh <owner/repo> [output-dir]
-#
-# 例:
-#   ./scripts/export-issues.sh micci184/devin-handson ./export
 
 set -euo pipefail
 
-SOURCE_REPO="${1:-}"
+SOURCE_REPO="${1:-$(gh repo view --json nameWithOwner -q .nameWithOwner)}"
 OUTPUT_DIR="${2:-./issue-export}"
-
-if [ -z "$SOURCE_REPO" ]; then
-  echo "Usage: $0 <owner/repo> [output-dir]"
-  exit 1
-fi
 
 mkdir -p "$OUTPUT_DIR"
 
