@@ -92,15 +92,8 @@ const LoginPage = () => {
         </Link>
       </p>
 
-      <div className="mt-6 rounded-md border border-dashed border-border bg-muted/50 p-3 text-xs text-muted-foreground">
-        <p className="mb-1 font-medium text-foreground">
-          開発用シードアカウント
-        </p>
-        <ul className="space-y-0.5 font-mono">
-          <li>admin@example.com / password123 (ADMIN)</li>
-          <li>member1@example.com / password123 (MEMBER)</li>
-          <li>member2@example.com / password123 (MEMBER)</li>
-        </ul>
+      <div className="mt-6 rounded-md border border-dashed border-border bg-muted/50 p-3 text-center font-mono text-xs text-muted-foreground">
+        admin@example.com / password123 (ADMIN)
       </div>
     </>
   );
