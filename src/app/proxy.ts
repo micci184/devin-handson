@@ -4,7 +4,13 @@ import { auth } from "@/lib/auth";
 
 import type { NextRequest } from "next/server";
 
-const protectedPaths = ["/dashboard", "/projects", "/notifications", "/settings", "/admin"];
+const protectedPaths = [
+  "/dashboard",
+  "/projects",
+  "/notifications",
+  "/settings",
+  "/admin",
+];
 const authPaths = ["/login", "/signup"];
 
 export const proxy = async (request: NextRequest) => {
@@ -13,6 +19,13 @@ export const proxy = async (request: NextRequest) => {
 
   const isProtected = protectedPaths.some((path) => pathname.startsWith(path));
   const isAuthPage = authPaths.some((path) => pathname.startsWith(path));
+
+  // ルートパス → 認証状態に応じてリダイレクト
+  if (pathname === "/") {
+    return NextResponse.redirect(
+      new URL(session ? "/dashboard" : "/login", request.url),
+    );
+  }
 
   // 未認証で保護ページにアクセス → /login へリダイレクト
   if (isProtected && !session) {
