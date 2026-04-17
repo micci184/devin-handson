@@ -19,7 +19,7 @@ fi
 
 mkdir -p "$OUTPUT_DIR"
 
-echo "📦 Exporting from $SOURCE_REPO (phase:0 は除外)"
+echo "Exporting from $SOURCE_REPO (phase:0 は除外)"
 
 # Issue を取得 → phase:0 ラベルを持つものを除外
 gh issue list \
@@ -31,7 +31,7 @@ gh issue list \
   > "$OUTPUT_DIR/issues.json"
 
 ISSUE_COUNT=$(jq 'length' "$OUTPUT_DIR/issues.json")
-echo "  ✓ Issues: $ISSUE_COUNT"
+echo "  Issues: $ISSUE_COUNT"
 
 # ラベル（インポート先で再作成するため全部エクスポート）
 gh label list \
@@ -41,6 +41,6 @@ gh label list \
   > "$OUTPUT_DIR/labels.json"
 
 LABEL_COUNT=$(jq 'length' "$OUTPUT_DIR/labels.json")
-echo "  ✓ Labels: $LABEL_COUNT"
+echo "  Labels: $LABEL_COUNT"
 
-echo "✅ Exported to $OUTPUT_DIR/"
+echo "Exported to $OUTPUT_DIR/"
