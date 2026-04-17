@@ -18,6 +18,7 @@
     }
   },
   "postCreateCommand": "cp -n .env.example .env || true && npm install",
+  "postStartCommand": "docker compose up db -d",
   "customizations": {
     "vscode": {
       "extensions": [
