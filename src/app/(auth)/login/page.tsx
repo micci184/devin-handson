@@ -8,7 +8,10 @@ import { login } from "@/lib/actions/auth";
 import type { AuthState } from "@/lib/actions/auth";
 
 const LoginPage = () => {
-  const [state, formAction, isPending] = useActionState<AuthState, FormData>(login, null);
+  const [state, formAction, isPending] = useActionState<AuthState, FormData>(
+    login,
+    null,
+  );
 
   return (
     <>
@@ -27,7 +30,10 @@ const LoginPage = () => {
         )}
 
         <div>
-          <label htmlFor="email" className="mb-1 block text-sm font-medium text-foreground">
+          <label
+            htmlFor="email"
+            className="mb-1 block text-sm font-medium text-foreground"
+          >
             メールアドレス
           </label>
           <input
@@ -39,12 +45,17 @@ const LoginPage = () => {
             placeholder="you@example.com"
           />
           {state?.fieldErrors?.email && (
-            <p className="mt-1 text-xs text-danger">{state.fieldErrors.email[0]}</p>
+            <p className="mt-1 text-xs text-danger">
+              {state.fieldErrors.email[0]}
+            </p>
           )}
         </div>
 
         <div>
-          <label htmlFor="password" className="mb-1 block text-sm font-medium text-foreground">
+          <label
+            htmlFor="password"
+            className="mb-1 block text-sm font-medium text-foreground"
+          >
             パスワード
           </label>
           <input
@@ -56,7 +67,9 @@ const LoginPage = () => {
             placeholder="••••••••"
           />
           {state?.fieldErrors?.password && (
-            <p className="mt-1 text-xs text-danger">{state.fieldErrors.password[0]}</p>
+            <p className="mt-1 text-xs text-danger">
+              {state.fieldErrors.password[0]}
+            </p>
           )}
         </div>
 
@@ -71,10 +84,24 @@ const LoginPage = () => {
 
       <p className="mt-4 text-center text-sm text-muted-foreground">
         アカウントをお持ちでない方は{" "}
-        <Link href="/signup" className="font-medium text-primary hover:underline">
+        <Link
+          href="/signup"
+          className="font-medium text-primary hover:underline"
+        >
           サインアップ
         </Link>
       </p>
+
+      <div className="mt-6 rounded-md border border-dashed border-border bg-muted/50 p-3 text-xs text-muted-foreground">
+        <p className="mb-1 font-medium text-foreground">
+          開発用シードアカウント
+        </p>
+        <ul className="space-y-0.5 font-mono">
+          <li>admin@example.com / password123 (ADMIN)</li>
+          <li>member1@example.com / password123 (MEMBER)</li>
+          <li>member2@example.com / password123 (MEMBER)</li>
+        </ul>
+      </div>
     </>
   );
 };
