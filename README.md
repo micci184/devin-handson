@@ -5,8 +5,8 @@
 ## 技術スタック
 
 - **フレームワーク**: Next.js 16 (App Router) + React 19 + TypeScript
-- **DB**: PostgreSQL 16 + Prisma ORM
-- **スタイル**: Tailwind CSS v4 (OKLCH)
+- **DB**: PostgreSQL 16 + Prisma
+- **スタイル**: Tailwind CSS v4
 - **インフラ**: Docker Compose
 
 ## セットアップ
