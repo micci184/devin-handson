@@ -4,7 +4,9 @@
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
       "moby": false
-    }
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {}
   },
   "forwardPorts": [3000, 5432],
   "portsAttributes": {
@@ -17,7 +19,7 @@
       "onAutoForward": "silent"
     }
   },
-  "postCreateCommand": "cp -n .env.example .env || true && npm install",
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y jq && cp -n .env.example .env || true && npm install",
   "postStartCommand": "docker compose up -d",
   "customizations": {
     "vscode": {

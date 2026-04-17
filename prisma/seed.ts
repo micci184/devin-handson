@@ -1,4 +1,10 @@
-import { PrismaClient, TaskStatus, TaskPriority, ProjectMemberRole, UserRole } from "@prisma/client";
+import {
+  PrismaClient,
+  TaskStatus,
+  TaskPriority,
+  ProjectMemberRole,
+  UserRole,
+} from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
@@ -11,38 +17,27 @@ const main = async () => {
 
   const admin = await prisma.user.upsert({
     where: { email: "admin@example.com" },
-    update: {},
+    update: { name: "admin" },
     create: {
       email: "admin@example.com",
-      name: "管理者 太郎",
+      name: "admin",
       password: passwordHash,
       role: UserRole.ADMIN,
     },
   });
 
-  const member1 = await prisma.user.upsert({
-    where: { email: "member1@example.com" },
-    update: {},
+  const member = await prisma.user.upsert({
+    where: { email: "member@example.com" },
+    update: { name: "member" },
     create: {
-      email: "member1@example.com",
-      name: "開発者 花子",
+      email: "member@example.com",
+      name: "member",
       password: passwordHash,
       role: UserRole.MEMBER,
     },
   });
 
-  const member2 = await prisma.user.upsert({
-    where: { email: "member2@example.com" },
-    update: {},
-    create: {
-      email: "member2@example.com",
-      name: "開発者 次郎",
-      password: passwordHash,
-      role: UserRole.MEMBER,
-    },
-  });
-
-  console.log(`  ✓ Users: ${admin.name}, ${member1.name}, ${member2.name}`);
+  console.log(`  ✓ Users: ${admin.name}, ${member.name}`);
 
   // ── Project ────────────────────────────────────────
   const project = await prisma.project.upsert({
@@ -62,8 +57,11 @@ const main = async () => {
   // ── Project Members ────────────────────────────────
   const membersData = [
     { projectId: project.id, userId: admin.id, role: ProjectMemberRole.OWNER },
-    { projectId: project.id, userId: member1.id, role: ProjectMemberRole.MEMBER },
-    { projectId: project.id, userId: member2.id, role: ProjectMemberRole.MEMBER },
+    {
+      projectId: project.id,
+      userId: member.id,
+      role: ProjectMemberRole.MEMBER,
+    },
   ];
 
   for (const m of membersData) {
@@ -81,7 +79,11 @@ const main = async () => {
     { name: "バグ", color: "oklch(0.55 0.22 27)", projectId: project.id },
     { name: "機能追加", color: "oklch(0.55 0.1 230)", projectId: project.id },
     { name: "改善", color: "oklch(0.65 0.17 160)", projectId: project.id },
-    { name: "ドキュメント", color: "oklch(0.55 0.15 300)", projectId: project.id },
+    {
+      name: "ドキュメント",
+      color: "oklch(0.55 0.15 300)",
+      projectId: project.id,
+    },
   ];
 
   const categories = [];
@@ -101,7 +103,8 @@ const main = async () => {
     {
       taskNumber: 1,
       title: "プロジェクト初期設定",
-      description: "## 概要\n\nDocker Compose + Next.js + PostgreSQL の環境構築",
+      description:
+        "## 概要\n\nDocker Compose + Next.js + PostgreSQL の環境構築",
       status: TaskStatus.DONE,
       priority: TaskPriority.HIGH,
       projectId: project.id,
@@ -112,23 +115,25 @@ const main = async () => {
     {
       taskNumber: 2,
       title: "ログイン画面の実装",
-      description: "## 概要\n\nAuth.js v5 の Credentials Provider を使ったログイン画面",
+      description:
+        "## 概要\n\nAuth.js v5 の Credentials Provider を使ったログイン画面",
       status: TaskStatus.IN_PROGRESS,
       priority: TaskPriority.HIGH,
       projectId: project.id,
       reporterId: admin.id,
-      assigneeId: member1.id,
+      assigneeId: member.id,
       sortOrder: 0,
     },
     {
       taskNumber: 3,
       title: "カンバンボード基本表示",
-      description: "## 概要\n\n5カラム（BACKLOG / TODO / IN_PROGRESS / IN_REVIEW / DONE）のカンバン表示",
+      description:
+        "## 概要\n\n5カラム（BACKLOG / TODO / IN_PROGRESS / IN_REVIEW / DONE）のカンバン表示",
       status: TaskStatus.TODO,
       priority: TaskPriority.MEDIUM,
       projectId: project.id,
       reporterId: admin.id,
-      assigneeId: member2.id,
+      assigneeId: member.id,
       sortOrder: 0,
     },
     {
@@ -138,7 +143,7 @@ const main = async () => {
       status: TaskStatus.BACKLOG,
       priority: TaskPriority.MEDIUM,
       projectId: project.id,
-      reporterId: member1.id,
+      reporterId: member.id,
       assigneeId: null,
       sortOrder: 0,
     },
@@ -150,14 +155,19 @@ const main = async () => {
       priority: TaskPriority.LOW,
       projectId: project.id,
       reporterId: admin.id,
-      assigneeId: member2.id,
+      assigneeId: member.id,
       sortOrder: 1,
     },
   ];
 
   for (const t of tasksData) {
     await prisma.task.upsert({
-      where: { projectId_taskNumber: { projectId: t.projectId, taskNumber: t.taskNumber } },
+      where: {
+        projectId_taskNumber: {
+          projectId: t.projectId,
+          taskNumber: t.taskNumber,
+        },
+      },
       update: {},
       create: t,
     });
@@ -175,12 +185,19 @@ const main = async () => {
 
   for (const pair of taskCategoryPairs) {
     const task = await prisma.task.findUnique({
-      where: { projectId_taskNumber: { projectId: project.id, taskNumber: pair.taskNumber } },
+      where: {
+        projectId_taskNumber: {
+          projectId: project.id,
+          taskNumber: pair.taskNumber,
+        },
+      },
     });
     const category = categories.find((c) => c.name === pair.categoryName);
     if (task && category) {
       await prisma.taskCategory.upsert({
-        where: { taskId_categoryId: { taskId: task.id, categoryId: category.id } },
+        where: {
+          taskId_categoryId: { taskId: task.id, categoryId: category.id },
+        },
         update: {},
         create: { taskId: task.id, categoryId: category.id },
       });
