@@ -10,7 +10,7 @@
 set -euo pipefail
 
 SOURCE_REPO="${1:-}"
-OUTPUT_DIR="${2:-./export}"
+OUTPUT_DIR="${2:-./issue-export}"
 
 if [ -z "$SOURCE_REPO" ]; then
   echo "Usage: $0 <owner/repo> [output-dir]"

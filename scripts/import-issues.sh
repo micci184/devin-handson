@@ -5,12 +5,12 @@
 #   ./scripts/import-issues.sh <target-owner/repo> [input-dir]
 #
 # 例:
-#   ./scripts/import-issues.sh micci184/new-repo ./export
+#   ./scripts/import-issues.sh micci184/new-repo ./issue-export
 
 set -euo pipefail
 
 TARGET_REPO="${1:-}"
-INPUT_DIR="${2:-./export}"
+INPUT_DIR="${2:-./issue-export}"
 
 if [ -z "$TARGET_REPO" ]; then
   echo "Usage: $0 <target-owner/repo> [input-dir]"
