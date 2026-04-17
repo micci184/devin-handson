@@ -44,6 +44,3 @@ prisma/migrations/**/migration_lock.toml
 
 # uploads
 /uploads
-
-# Issue export output
-/export/
