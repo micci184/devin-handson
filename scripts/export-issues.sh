@@ -12,7 +12,7 @@ echo "Exporting from $SOURCE_REPO (phase:0 は除外)"
 # Issue を取得 → phase:0 ラベルを持つものを除外
 gh issue list \
   --repo "$SOURCE_REPO" \
-  --state all \
+  --state open \
   --limit 1000 \
   --json number,title,body,labels,state \
   | jq '[.[] | select(.labels | map(.name) | contains(["phase:0"]) | not)]' \

@@ -13,7 +13,7 @@ fi
 
 echo "Importing to $TARGET_REPO"
 
-# Label 作成（既存ならスキップ）
+# Label 作成
 echo "  → Creating labels..."
 jq -c '.[]' "$INPUT_DIR/labels.json" | while read -r label; do
   name=$(echo "$label" | jq -r '.name')
