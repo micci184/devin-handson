@@ -92,9 +92,9 @@ const LoginPage = () => {
         </Link>
       </p>
 
-      <div className="mt-6 rounded-md border border-dashed border-border bg-muted/50 p-3 text-center font-mono text-xs text-muted-foreground">
-        admin@example.com / password123 (ADMIN)
-      </div>
+      <p className="mt-6 text-center font-mono text-xs text-muted-foreground">
+        admin@example.com / password123
+      </p>
     </>
   );
 };
