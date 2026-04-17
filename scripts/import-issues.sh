@@ -1,13 +1,4 @@
 #!/bin/bash
-# エクスポートした Issue を別リポジトリへインポート
-#
-# 使い方:
-#   ./scripts/import-issues.sh [target-owner/repo] [input-dir]
-#   引数なしで実行するとカレントリポジトリを自動検出します
-#
-# 例:
-#   ./scripts/import-issues.sh                          # カレントリポジトリ
-#   ./scripts/import-issues.sh micci184/new-repo        # 指定リポジトリ
 
 set -euo pipefail
 
