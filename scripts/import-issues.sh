@@ -15,12 +15,12 @@ TARGET_REPO="${1:-$(gh repo view --json nameWithOwner -q .nameWithOwner)}"
 INPUT_DIR="${2:-./issue-export}"
 
 if [ ! -f "$INPUT_DIR/issues.json" ]; then
-  echo "❌ issues.json が $INPUT_DIR に見つかりません"
+  echo "Error: issues.json が $INPUT_DIR に見つかりません"
   echo "   先に ./scripts/export-issues.sh を実行してください"
   exit 1
 fi
 
-echo "📥 Importing to $TARGET_REPO"
+echo "Importing to $TARGET_REPO"
 
 # Issue 作成（OPEN のみ、古いものから順に番号再採番）
 echo "  → Creating issues..."
@@ -44,7 +44,7 @@ jq -c '[.[] | select(.state == "OPEN")] | reverse | .[]' "$INPUT_DIR/issues.json
       --body "$body" \
       > /dev/null
   fi
-  echo "     ✓ $title"
+  echo "     ok: $title"
 done
 
-echo "✅ Import completed"
+echo "Import completed"
