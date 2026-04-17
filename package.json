@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:setup": "prisma migrate deploy && prisma db seed && next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",

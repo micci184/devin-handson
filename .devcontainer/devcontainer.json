@@ -15,7 +15,7 @@
       "onAutoForward": "silent"
     }
   },
-  "postCreateCommand": "cp -n .env.example .env || true",
+  "postCreateCommand": "cp -n .env.example .env || true && npm install",
   "customizations": {
     "vscode": {
       "extensions": [
