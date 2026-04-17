@@ -21,14 +21,4 @@ gh issue list \
 ISSUE_COUNT=$(jq 'length' "$OUTPUT_DIR/issues.json")
 echo "  Issues: $ISSUE_COUNT"
 
-# ラベル（インポート先で再作成するため全部エクスポート）
-gh label list \
-  --repo "$SOURCE_REPO" \
-  --limit 200 \
-  --json name,description,color \
-  > "$OUTPUT_DIR/labels.json"
-
-LABEL_COUNT=$(jq 'length' "$OUTPUT_DIR/labels.json")
-echo "  Labels: $LABEL_COUNT"
-
 echo "Exported to $OUTPUT_DIR/"
